@@ -9,7 +9,7 @@ v-container(:class='$vuetify.breakpoint.mdAndDown && "pa-0"')
           max-width='100'
         )
       v-row(justify='center' align="center")
-        a.pokemon__list-title(:href='`/pokes/details/${poke.name}`') {{ poke.name }}
+        NuxtLink.pokemon__list-title(:to='`/pokes/details/${poke.name}`') {{ poke.name }}
 </template>
 <script>
 export default {
