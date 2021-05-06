@@ -1,17 +1,19 @@
 <template lang="pug">
 v-container(fluid) 
   v-row(justify='center', align='center')
-    v-img(max-height='150', max-width='250', src='/images/pokeApi.png')
+    v-col(cols=12)
+      v-row(justify="center")
+        v-img(max-height='150', max-width='250', src='/images/pokeApi.png')
     v-col(lg=10)
       v-form(@submit.prevent='search')
         v-text-field.grey--text(
           v-model='query',
           solo,
           rounded,
-          placeholder='pokemon'
+          placeholder='search by pokemon only'
         )
         v-row.justify-end(no-gutters)
-          v-col(cols=2, sm=2, md=2)
+          v-col(cols=4, sm=2, md=2)
             v-btn.text-capitalize.hover-line.primary.white--text(
               depressed,
               rounded,

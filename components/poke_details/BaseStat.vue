@@ -40,9 +40,7 @@ export default {
         this.baseStatLabels.push(
           `${baseStat.stat.name} (${baseStat.base_stat})`
         )
-        // return baseStat.base_stat
       })
-      console.log(this.baseStatValues)
     },
   },
   created() {

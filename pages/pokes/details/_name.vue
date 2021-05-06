@@ -68,7 +68,6 @@ export default {
     async getPokeDetails(name) {
       try {
         const res = await this.$api.getPokeDetails(name)
-        console.log(res)
         this.poke = res
       } catch (err) {
         console.log(err)

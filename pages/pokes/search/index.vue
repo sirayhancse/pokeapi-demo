@@ -88,7 +88,6 @@ export default {
           this.per_page * this.page
         )
         this.pokes = res.results
-        console.log(this.pokes)
         this.pagination_length = res.count
         this.loader = false
       } catch (err) {
