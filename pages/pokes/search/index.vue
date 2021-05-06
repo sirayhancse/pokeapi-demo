@@ -85,7 +85,7 @@ export default {
         const res = await this.$api.searchPokes(
           this.q,
           this.per_page,
-          this.per_page * this.page
+          this.page === 1 ? 0 : this.per_page * (this.page - 1)
         )
         this.pokes = res.results
         this.pagination_length = res.count
