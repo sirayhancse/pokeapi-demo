@@ -17,26 +17,28 @@ v-card
           v-chip.primary.white--text {{ type.type.name }}
 
     v-container(fluid)
-      v-tabs.mt-4(
-        icons-and-text,
-        color='primary',
-        v-model='tab',
-        grow,
-        slider-color='primary'
-      )
-        v-tab.flex-row-reverse(href='#about') About
-          v-icon.mr-1.mb-n1.mt-n1(flat) mdi-information
-        v-tab.flex-row-reverse(href='#moves') Moves
-          v-icon.mr-1.mb-n1.mt-n1(flat) mdi-gamepad
-        v-tab.flex-row-reverse(href='#state') Base Stat
-          v-icon.mr-1.mb-n1.mt-n1(flat) mdi-chart-areaspline
-        v-tabs-items(v-model='tab')
-          v-tab-item(value='about')
-            AboutList(:poke='poke')
-          v-tab-item(value='moves')
-            PokeMoves(:pokeMoves='poke.moves')
-          v-tab-item(value='state')
-            BaseStat(:pokeStats='poke.stats')
+      v-row(justify='center')
+        v-col(cols=10)
+          v-tabs.mt-4(
+            icons-and-text,
+            color='primary',
+            v-model='tab',
+            grow,
+            slider-color='primary'
+          )
+            v-tab.flex-row-reverse(href='#about') About
+              v-icon.mr-1.mb-n1.mt-n1(flat) mdi-information
+            v-tab.flex-row-reverse(href='#moves') Moves
+              v-icon.mr-1.mb-n1.mt-n1(flat) mdi-gamepad
+            v-tab.flex-row-reverse(href='#state') Base Stat
+              v-icon.mr-1.mb-n1.mt-n1(flat) mdi-chart-areaspline
+            v-tabs-items(v-model='tab')
+              v-tab-item(value='about')
+                AboutList(:poke='poke')
+              v-tab-item(value='moves')
+                PokeMoves(:pokeMoves='poke.moves')
+              v-tab-item(value='state')
+                BaseStat(:pokeStats='poke.stats')
 </template>
 
 <script>

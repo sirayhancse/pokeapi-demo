@@ -3,12 +3,11 @@ section
   v-container(fluid, style='min-height: 90vh')
     v-row(align='center', justify='center')
       v-col(cols=12, md=6)
-        v-form(@submit.prevent='search')
+        v-form(@submit.prevent='filterPokes')
           v-text-field.grey--text(
             prepend-inner-icon='mdi-magnify',
             v-model='q',
             solo,
-            @keydown.enter='onPageChange',
             placeholder='Search again'
           )
     v-row(v-if='loader')
@@ -26,15 +25,15 @@ section
               v-skeleton-loader(type='image')
               v-skeleton-loader(type='list-item', tile)
     v-container(v-else)
-      v-row(v-if='pokes.length > 0') 
+      v-row(v-if='filterPokes().length > 0') 
         v-col(cols=12)
-          PokesCard(:pokes='pokes')
-        v-pagination(
-          v-if='pagination_length != 0',
-          v-model='page',
-          :length='pagination_length',
-          @input='onPageChange'
-        )
+          PokesCard(:pokes='filterPokes()')
+      //-   v-pagination(
+      //-     v-if='paginationLength != 0',
+      //-     v-model='page',
+      //-     :length='paginationLength',
+      //-     @input='onPageChange'
+      //-   )
       v-row.justify-center(v-else)
         v-col
           v-container
@@ -47,65 +46,47 @@ section
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import PokesCard from '@/components/partials/PokesCard'
 export default {
   components: {
     PokesCard,
   },
   data: () => ({
-    pokes: [],
     q: '',
     error: false,
-    pagination_length: 0,
-    page: 1,
-    per_page: 12,
+    // paginationLength: 0,
+    // page: 1,
+    // perPage: 24,
     loader: true,
+  }),
+  computed: mapGetters({
+    pokes: 'pokes/getPokes',
   }),
   watch: {
     '$route.query.q'() {
       this.loader = true
-      this.page = parseInt(this.$route.query.page)
+      // this.page = parseInt(this.$route.query.page)
       this.q = this.$route.query.q
-      this.search()
     },
   },
   mounted() {
-    this.page = parseInt(this.$route.query.page)
+    // this.page = parseInt(this.$route.query.page)
     this.q = this.$route.query.q
-    this.search()
+    this.filterPokes()
   },
   methods: {
-    onPageChange(page) {
-      const url = `?q=${this.q || ''}&page=${this.page}`
-      this.$router.push(url)
-      this.search()
-    },
-    async search() {
-      try {
-        const res = await this.$api.searchPokes(
-          this.q,
-          this.per_page,
-          this.page === 1 ? 0 : this.per_page * (this.page - 1)
-        )
-        this.pokes = res.results
-        this.pagination_length = res.count
+    // onPageChange(page) {
+    //   const url = `?q=${this.q || ''}&page=${this.page}`
+    //   this.$router.push(url)
+    //   this.filterPokes()
+    // },
+    filterPokes() {
+      const filterValue = this.q.toLowerCase()
+      const filter = (poke) => poke.name.toLowerCase().includes(filterValue)
+      if (filter) {
         this.loader = false
-      } catch (err) {
-        this.pokes = []
-        this.loader = false
-        console.log(err)
-      }
-    },
-    set_pagination_length(pokes) {
-      if (pokes.length > 0) {
-        this.pagination_length =
-          parseInt(pokes[0].total_entries) / this.per_page
-        this.pagination_length =
-          parseInt(pokes[0].total_entries) % this.per_page === 0
-            ? this.pagination_length
-            : this.pagination_length + 1
-      } else {
-        this.pagination_length = 1
+        return this.pokes.filter(filter)
       }
     },
   },
